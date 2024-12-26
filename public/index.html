@@ -265,10 +265,10 @@ README:
                 <span><button @click="addTask" class="button new_todo_button">Добавить</button></span>
             </label>
             <h3 class="status_title">{{'Активні завдання: ' + tasks.length}}</h3>
-            <task @task_del="deleteTask(task.id)"
+            <task @task_del="deleteTask(task._id)"
                   @task_edit="editTask(index)"
-                  @task_done="markAsDone(index, task.id)"
-                  @save="save(index, task.id)"
+                  @task_done="markAsDone(index, task._id)"
+                  @save="save(index, task._id)"
                   @disable="disable(index)"
                   :data="task"
                   :index="index+1"
