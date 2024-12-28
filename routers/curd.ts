@@ -5,7 +5,7 @@ const crudRouter = Router();
 
 crudRouter.get("/", async (req: Request, res: Response) => {
     try {
-        const items = await ItemModel.find();
+        const items = await ItemModel.find({ userId: req.session.userId});
         res.status(200).json({items : items});
     } catch (e) {
         res.status(500).json({error: "Failed to fetch items"});
@@ -22,7 +22,7 @@ crudRouter.post("/", async (req: Request, res: Response) => {
     }
 
     try {
-        const newItem = new ItemModel({text});
+        const newItem = new ItemModel({text, userId: req.session.userId});
         await newItem.save();
 
         res.status(201).json({id: newItem._id});
