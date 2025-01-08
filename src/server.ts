@@ -1,10 +1,8 @@
-import express, {Response, Request, NextFunction} from "express";
+import express from "express";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import session from "express-session";
-import crudRouter from "./routers/curd";
-import authRouter from "./routers/auth";
-
+import router from "./router";
 
 const app = express();
 const PORT = 3000;
@@ -38,19 +36,7 @@ app.use(
 
 app.use(express.static("public"));
 app.use(express.json());
-
-const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-    if (!req.session.userId) {
-        res.status(400).json({error: "forbidden"});
-        return;
-    }
-
-    next();
-};
-
-app.use("/api/v1/items", isAuthenticated);
-app.use("/api/v1/items", crudRouter);
-app.use("/api/v1/", authRouter);
+app.use("/api/v2/router", router);
 
 app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);

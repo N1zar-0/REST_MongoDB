@@ -1,10 +1,9 @@
-import {Router, Response, Request} from "express";
+import {Response, Request} from "express";
 import bcrypt from "bcrypt";
 import UserModel from "../models/User";
 
-const authRouter = Router();
 
-authRouter.post("/login", async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => {
     const {login, pass} = req.body;
 
     try {
@@ -16,7 +15,7 @@ authRouter.post("/login", async (req: Request, res: Response) => {
 
         const isMatch = await bcrypt.compare(pass, user.pass);
         if (!isMatch) {
-            res.status(400).json({ error: "Invalid credentials" });
+            res.status(400).json({error: "Invalid credentials"});
             return;
         }
 
@@ -25,9 +24,10 @@ authRouter.post("/login", async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({error: "Login failed"});
     }
-})
+}
 
-authRouter.post("/logout", async (req: Request, res: Response) => {
+
+export const logout = async (req: Request, res: Response) => {
     req.session.destroy((err) => {
         if (err) {
             res.status(500).json({error: "Logout failed"});
@@ -37,9 +37,10 @@ authRouter.post("/logout", async (req: Request, res: Response) => {
         res.clearCookie("connect.sid");
         res.status(200).json({ok: true});
     });
-});
+}
 
-authRouter.post("/register", async (req: Request, res: Response) => {
+
+export const register = async (req: Request, res: Response) => {
     const {login, pass} = req.body;
 
     try {
@@ -58,6 +59,4 @@ authRouter.post("/register", async (req: Request, res: Response) => {
     } catch (e) {
         res.status(500).json({error: "Registration failed"});
     }
-})
-
-export default authRouter;
+}

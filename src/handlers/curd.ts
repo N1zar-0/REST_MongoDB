@@ -1,19 +1,17 @@
-import {Router, Response, Request} from "express";
+import {Response, Request} from "express";
 import ItemModel from "../models/Item";
 
-const crudRouter = Router();
-
-crudRouter.get("/", async (req: Request, res: Response) => {
+export const getItems = async (req: Request, res: Response) => {
     try {
-        const items = await ItemModel.find({ userId: req.session.userId});
-        res.status(200).json({items : items});
+        const items = await ItemModel.find({userId: req.session.userId});
+        res.status(200).json({items: items});
     } catch (e) {
         res.status(500).json({error: "Failed to fetch items"});
     }
-});
+}
 
 
-crudRouter.post("/", async (req: Request, res: Response) => {
+export const createItem = async (req: Request, res: Response) => {
     let text = req.body.text;
 
     if (!text) {
@@ -29,10 +27,10 @@ crudRouter.post("/", async (req: Request, res: Response) => {
     } catch (e) {
         res.status(500).json({error: "Failed to add item"});
     }
-});
+}
 
 
-crudRouter.put("/", async (req: Request, res: Response) => {
+export const editItem = async (req: Request, res: Response) => {
     let {id, text, checked} = req.body;
 
     if (id === undefined || text === undefined || checked === undefined) {
@@ -52,10 +50,10 @@ crudRouter.put("/", async (req: Request, res: Response) => {
     } catch (e) {
         res.status(500).json({error: "Failed to update item"});
     }
-});
+}
 
 
-crudRouter.delete("/", async (req: Request, res: Response) => {
+export const deleteItem = async (req: Request, res: Response) => {
     let id = req.body.id;
 
     if (id === undefined) {
@@ -63,17 +61,15 @@ crudRouter.delete("/", async (req: Request, res: Response) => {
         return;
     }
 
-   try {
-       const deletedItem = await ItemModel.findByIdAndDelete(id);
-       if (!deletedItem) {
-           res.status(404).json({ error: "Item not found" });
-           return;
-       }
+    try {
+        const deletedItem = await ItemModel.findByIdAndDelete(id);
+        if (!deletedItem) {
+            res.status(404).json({error: "Item not found"});
+            return;
+        }
 
-       res.status(200).send({ok: true});
-   }catch (e) {
-       res.status(500).json({ error: "Failed to delete item" });
-   }
-});
-
-export default crudRouter;
+        res.status(200).send({ok: true});
+    } catch (e) {
+        res.status(500).json({error: "Failed to delete item"});
+    }
+}
