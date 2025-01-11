@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import session from "express-session";
+import cors from "cors";
 import router from "./router";
 
 const app = express();
@@ -34,7 +35,14 @@ app.use(
     })
 );
 
-app.use(express.static("public"));
+const corsOptions = {
+    origin: "http://localhost:8080",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+}
+
+app.use(cors(corsOptions));
+// app.use(express.static("public"));
 app.use(express.json());
 app.use("/api/v2/router", router);
 

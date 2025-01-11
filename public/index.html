@@ -226,26 +226,26 @@ README:
         <h1 class="logo">Ш<span style="color: #27ae60">++</span></h1>
     </header>
     <main>
-        <div class="settings">
-            <h3>Налаштування додатку:</h3>
-                <label>
-                    Api URL:
-                    <input type="text" v-model="apiURL">
-                </label>
-                <div>
-                    На якій мові бекенд?
-                    <button @click="backendLanguage='PHP'" :class="{'selected': backendLanguage === 'PHP'}">PHP</button>
-                    <button @click="backendLanguage='JS'"  :class="{'selected': backendLanguage === 'JS'}">JS</button>
-                </div>
-                <div>
-                    Версія АПІ
-                    <button @click="apiVersion='v1'" :class="{'selected': apiVersion === 'v1'}">v1</button>
-                    <button @click="apiVersion='v2'" :class="{'selected': apiVersion === 'v2'}">v2</button>
-                </div>
-                <div>
-                    <button @click="getTasks()" class="primary">Рушаймо</button>
-                </div>
-        </div>
+<!--        <div class="settings">-->
+<!--            <h3>Налаштування додатку:</h3>-->
+<!--                <label>-->
+<!--                    Api URL:-->
+<!--                    <input type="text" v-model="apiURL">-->
+<!--                </label>-->
+<!--                <div>-->
+<!--                    На якій мові бекенд?-->
+<!--                    <button @click="backendLanguage='PHP'" :class="{'selected': backendLanguage === 'PHP'}">PHP</button>-->
+<!--                    <button @click="backendLanguage='JS'"  :class="{'selected': backendLanguage === 'JS'}">JS</button>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    Версія АПІ-->
+<!--                    <button @click="apiVersion='v1'" :class="{'selected': apiVersion === 'v1'}">v1</button>-->
+<!--                    <button @click="apiVersion='v2'" :class="{'selected': apiVersion === 'v2'}">v2</button>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <button @click="getTasks()" class="primary">Рушаймо</button>-->
+<!--                </div>-->
+<!--        </div>-->
         <div class="wrapper login" v-if="step === 'login'">
             <h3>Доступ до облікового запису</h3>
                 <div class="LoginInput">
@@ -329,7 +329,7 @@ README:
             pass: '',
             backendLanguage: 'JS',
             apiURL: 'http://localhost:3000/api/',
-            apiVersion: 'v1',
+            apiVersion: 'v2',
             step: ''
         },
         computed: {
@@ -504,6 +504,9 @@ README:
                         });
                 }
             },
+        },
+        mounted() {
+            this.getTasks();
         },
     });
 </script>

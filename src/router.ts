@@ -8,7 +8,7 @@ router.all("/", (req: Request, res: Response) => {
     const {action} = req.query;
 
     if (!(req.session.userId || action === "login" || action === "register")) {
-        res.status(400).json({error: "forbidden"});
+        res.status(403).json({error: "forbidden"});
         return;
     }
 
